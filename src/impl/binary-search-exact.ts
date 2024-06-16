@@ -2,13 +2,13 @@
  * Binary search for the index of an exact value in a sorted array.
  * If the value is not found, the function returns -1.
  *
- * @param array The array to search.
  * @param value The value to search for.
+ * @param array The array to search.
  * @returns The index of the value in the array.
  */
 export function binarySearchIndexExact(
-  array: readonly number[],
   value: number,
+  array: readonly number[],
 ): number {
   if (array.length === 0 || value < array[0] || value > array.at(-1)!) {
     return -1;
@@ -35,18 +35,17 @@ export function binarySearchIndexExact(
 
 /**
  * Binary search for the index of an exact value in a sorted array.
- * Array can be of any type - a selector function
- *   is used to extract the value to compare to.
+ * Array can be of any type - a compare function is used for comparison.
  * If the value is not found, the function returns -1.
  *
- * @param array The array to search.
  * @param value The value to search for.
- * @param selector A function that returns a number used in comparison.
+ * @param array The array to search.
+ * @param compare A function used to compare the value with an item in the array.
  * @returns The index of the value in the array.
  */
 export function binarySearchWithSelectorIndexExact<T>(
-  array: readonly T[],
   value: number,
+  array: readonly T[],
   selector: (item: T) => number,
 ): number {
   if (

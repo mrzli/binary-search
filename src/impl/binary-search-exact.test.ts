@@ -3,101 +3,29 @@ import {
   binarySearchIndexExact,
   binarySearchWithSelectorIndexExact,
 } from './binary-search-exact';
+import { Example } from './_test/types';
+import { exampleEmpty, examplesAt, exampleBetween } from './_test/test-data';
 import { range } from './_test/test-util';
 
 describe('binary-search-exact', () => {
-  const ARRAY: readonly number[] = range(0, 101, 10);
-
-  interface Example<T> {
-    readonly description: string;
-    readonly input: {
-      readonly array: readonly T[];
-      readonly value: number;
-    };
-    readonly expected: number;
-  }
-
   const EXAMPLES: readonly Example<number>[] = [
-    {
-      description: 'empty array',
-      input: {
-        array: [],
-        value: 0,
-      },
-      expected: -1,
-    },
-    {
-      description: 'before first',
-      input: {
-        array: ARRAY,
-        value: -10,
-      },
-      expected: -1,
-    },
-    {
-      description: 'after last',
-      input: {
-        array: ARRAY,
-        value: 110,
-      },
-      expected: -1,
-    },
-    {
-      description: 'first',
-      input: {
-        array: ARRAY,
-        value: 0,
-      },
-      expected: 0,
-    },
-    {
-      description: 'second',
-      input: {
-        array: ARRAY,
-        value: 10,
-      },
-      expected: 1,
-    },
-    {
-      description: 'last',
-      input: {
-        array: ARRAY,
-        value: 100,
-      },
-      expected: 10,
-    },
-    {
-      description: 'between 1 and 2, not exact (1)',
-      input: {
-        array: ARRAY,
-        value: 11,
-      },
-      expected: -1,
-    },
-    {
-      description: 'between 1 and 2, not exact (2)',
-      input: {
-        array: ARRAY,
-        value: 19,
-      },
-      expected: -1,
-    },
-    {
-      description: 'between 8 and 9, not exact',
-      input: {
-        array: ARRAY,
-        value: 85,
-      },
-      expected: -1,
-    },
+    exampleEmpty(-1),
+    ...examplesAt([
+      [-1, -1],
+      [11, -1],
+      ...range(0, 11, 1).map((value) => [value, value] as const),
+    ]),
+    exampleBetween(1, 1, -1),
+    exampleBetween(1, 9, -1),
+    exampleBetween(8, 5, -1),
   ];
 
   describe('binarySearchIndexExact()', () => {
     for (const example of EXAMPLES) {
       it(example.description, () => {
-        const { array, value } = example.input;
+        const { value, array } = example.input;
 
-        const actual = binarySearchIndexExact(array, value);
+        const actual = binarySearchIndexExact(value, array);
         expect(actual).toEqual(example.expected);
       });
     }
@@ -120,11 +48,11 @@ describe('binary-search-exact', () => {
 
     for (const example of examples) {
       it(example.description, () => {
-        const { array, value } = example.input;
+        const { value, array } = example.input;
 
         const actual = binarySearchWithSelectorIndexExact(
-          array,
           value,
+          array,
           SELECTOR,
         );
         expect(actual).toEqual(example.expected);

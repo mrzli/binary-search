@@ -3,13 +3,13 @@
  *   which is less than or equal to the value provided as input.
  * If there is no such value, the function returns -1.
  *
- * @param array The array to search.
  * @param value The value to search for.
+ * @param array The array to search.
  * @returns The index of the value in the array.
  */
 export function binarySearchIndexLte(
-  array: readonly number[],
   value: number,
+  array: readonly number[],
 ): number {
   if (array.length === 0 || value < array[0]) {
     return -1;
@@ -43,18 +43,17 @@ export function binarySearchIndexLte(
 /**
  * Binary search for the index of an value in a sorted array
  *   which is less than or equal to the value provided as input.
- * Array can be of any type - a selector function
- *   is used to extract the value to compare to.
+ * Array can be of any type - a compare function is used for comparison.
  * If there is no such value, the function returns -1.
  *
- * @param array The array to search.
  * @param value The value to search for.
- * @param selector A function that returns a number used in comparison.
+ * @param array The array to search.
+ * @param compare A function used to compare the value with an item in the array.
  * @returns The index of the value in the array.
  */
 export function binarySearchWithSelectorIndexLte<T>(
-  array: readonly T[],
   value: number,
+  array: readonly T[],
   selector: (item: T) => number,
 ): number {
   if (array.length === 0 || value < selector(array[0])) {
