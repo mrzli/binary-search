@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import {
   binarySearchIndexExact,
-  binarySearchWithSelectorIndexExact,
+  binarySearchIndexExactArbitrary,
 } from './binary-search-exact';
 import { Example } from './_test/types';
 import { exampleEmpty, examplesAt, exampleBetween } from './_test/test-data';
@@ -31,7 +31,7 @@ describe('binary-search-exact', () => {
     }
   });
 
-  describe('binarySearchWithSelectorIndexExact()', () => {
+  describe('binarySearchIndexExactArbitrary()', () => {
     interface Item {
       readonly value: number;
     }
@@ -44,17 +44,13 @@ describe('binary-search-exact', () => {
       },
     }));
 
-    const SELECTOR = (item: Item): number => item.value;
+    const COMPARE = (value: number, item: Item): number => value - item.value;
 
     for (const example of examples) {
       it(example.description, () => {
         const { value, array } = example.input;
 
-        const actual = binarySearchWithSelectorIndexExact(
-          value,
-          array,
-          SELECTOR,
-        );
+        const actual = binarySearchIndexExactArbitrary(value, array, COMPARE);
         expect(actual).toEqual(example.expected);
       });
     }

@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import {
   binarySearchIndexGt,
-  binarySearchWithSelectorIndexGt,
+  binarySearchIndexGtArbitrary,
 } from './binary-search-gt';
 import { exampleBetween, exampleEmpty, examplesAt } from './_test/test-data';
 import { Example } from './_test/types';
@@ -32,7 +32,7 @@ describe('binary-search-gt', () => {
     }
   });
 
-  describe('binarySearchWithSelectorIndexGt()', () => {
+  describe('binarySearchIndexGtArbitrary()', () => {
     interface Item {
       readonly value: number;
     }
@@ -45,13 +45,13 @@ describe('binary-search-gt', () => {
       },
     }));
 
-    const SELECTOR = (item: Item): number => item.value;
+    const COMPARE = (value: number, item: Item): number => value - item.value;
 
     for (const example of examples) {
       it(example.description, () => {
         const { value, array } = example.input;
 
-        const actual = binarySearchWithSelectorIndexGt(value, array, SELECTOR);
+        const actual = binarySearchIndexGtArbitrary(value, array, COMPARE);
         expect(actual).toEqual(example.expected);
       });
     }

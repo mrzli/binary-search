@@ -51,16 +51,16 @@ export function binarySearchIndexGte(
  * @param compare A function used to compare the value with an item in the array.
  * @returns The index of the value in the array.
  */
-export function binarySearchWithSelectorIndexGte<T>(
-  value: number,
-  array: readonly T[],
-  selector: (item: T) => number,
+export function binarySearchIndexGteArbitrary<TValue, TItem>(
+  value: TValue,
+  array: readonly TItem[],
+  compare: (value: TValue, item: TItem) => number,
 ): number {
-  if (array.length === 0 || value > selector(array.at(-1)!)) {
+  if (array.length === 0 || compare(value, array.at(-1)!) > 0) {
     return -1;
   }
 
-  if (value < selector(array[0])) {
+  if (compare(value, array[0]) <= 0) {
     return 0;
   }
 
@@ -70,11 +70,11 @@ export function binarySearchWithSelectorIndexGte<T>(
 
   while (start <= end) {
     const mid = Math.floor((start + end) / 2);
-    const midVal = selector(array[mid]);
+    const midVal = array[mid];
 
-    if (midVal < value) {
+    if (compare(value, midVal) > 0) {
       start = mid + 1;
-    } else if (midVal > value) {
+    } else if (compare(value, midVal) < 0) {
       closestGreater = mid;
       end = mid - 1;
     } else {

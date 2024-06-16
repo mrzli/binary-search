@@ -51,16 +51,16 @@ export function binarySearchIndexLt(
  * @param compare A function used to compare the value with an item in the array.
  * @returns The index of the value in the array.
  */
-export function binarySearchWithSelectorIndexLt<T>(
-  value: number,
-  array: readonly T[],
-  selector: (item: T) => number,
+export function binarySearchIndexLtArbitrary<TValue, TItem>(
+  value: TValue,
+  array: readonly TItem[],
+  compare: (value: TValue, item: TItem) => number,
 ): number {
-  if (array.length === 0 || value <= selector(array[0])) {
+  if (array.length === 0 || compare(value, array[0]) <= 0) {
     return -1;
   }
 
-  if (value > selector(array.at(-1)!)) {
+  if (compare(value, array.at(-1)!) > 0) {
     return array.length - 1;
   }
 
@@ -70,12 +70,12 @@ export function binarySearchWithSelectorIndexLt<T>(
 
   while (start <= end) {
     const mid = Math.floor((start + end) / 2);
-    const midVal = selector(array[mid]);
+    const midVal = array[mid];
 
-    if (midVal < value) {
+    if (compare(value, midVal) > 0) {
       closestLesser = mid;
       start = mid + 1;
-    } else if (midVal >= value) {
+    } else if (compare(value, midVal) <= 0) {
       end = mid - 1;
     } else {
       return closestLesser;

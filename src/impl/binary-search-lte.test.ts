@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import {
   binarySearchIndexLte,
-  binarySearchWithSelectorIndexLte,
+  binarySearchIndexLteArbitrary,
 } from './binary-search-lte';
 import { exampleEmpty, examplesAt, exampleBetween } from './_test/test-data';
 import { Example } from './_test/types';
@@ -31,7 +31,7 @@ describe('binary-search-lte', () => {
     }
   });
 
-  describe('binarySearchWithSelectorIndexLte()', () => {
+  describe('binarySearchIndexLteArbitrary()', () => {
     interface Item {
       readonly value: number;
     }
@@ -44,13 +44,13 @@ describe('binary-search-lte', () => {
       },
     }));
 
-    const SELECTOR = (item: Item): number => item.value;
+    const COMPARE = (value: number, item: Item): number => value - item.value;
 
     for (const example of examples) {
       it(example.description, () => {
         const { value, array } = example.input;
 
-        const actual = binarySearchWithSelectorIndexLte(value, array, SELECTOR);
+        const actual = binarySearchIndexLteArbitrary(value, array, COMPARE);
         expect(actual).toEqual(example.expected);
       });
     }
