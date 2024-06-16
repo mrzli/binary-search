@@ -4,7 +4,12 @@ All notable changes to the "binary-search" will be documented in this file.
 
 ## [Unreleased]
 
-- Initial release.
+## [0.0.1] - 2024-06-16
+
+### Added
+
+- Add binary search functions.
+- Add everything else needed for initial release.
 
 <!--
 See: https://common-changelog.org/
